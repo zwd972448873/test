@@ -6,13 +6,13 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    redirect:'/list'
+    redirect:'/box'
   },
-  //列表页面
+  //壳子
   {
-    path: '/list',
-    name: 'list',
-    component: () => import('../views/list/index.vue')
+    path: '/box',
+    name: 'box',
+    component: () => import('../views/box/index.vue')
   }
 ]
 
