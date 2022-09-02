@@ -1,7 +1,7 @@
 <template>
   <div class="list">
     <el-input
-      v-model="input1"
+      v-model="ticketNum"
       placeholder="工作票编号"
       size="mini"
       style="width: 130px; margin-right: 5px"
@@ -15,14 +15,14 @@
       style="width: 128px"
     >
       <el-option
-        v-for="item in options"
+        v-for="item in selectOptions"
         :key="item.value"
         :label="item.label"
         :value="item.value"
       ></el-option>
     </el-select>
     <el-input
-      v-model="input2"
+      v-model="personCharge"
       placeholder="负责人"
       size="mini"
       style="width: 130px"
@@ -34,7 +34,7 @@
       style="width: 180px"
     ></el-input>
     <el-date-picker
-      v-model="value1"
+      v-model="planStarton"
       type="week"
       format="yyyy 第 WW 周"
       placeholder="计划开始时间起"
@@ -44,22 +44,84 @@
     </el-date-picker>
     <span>至</span>
     <el-date-picker
-      v-model="value2"
+      v-model="planStartoff"
       type="week"
       format="yyyy 第 WW 周"
-      placeholder="计划开始时间起"
+      placeholder="计划开始时间止"
       size="mini"
       style="width: 130px"
     >
     </el-date-picker>
+    <el-date-picker
+      v-model="planEndon"
+      type="week"
+      format="yyyy 第 WW 周"
+      placeholder="计划结束时间起"
+      size="mini"
+      style="width: 130px"
+    >
+    </el-date-picker>
+    <span>至</span>
+    <el-date-picker
+      v-model="planEndoff"
+      type="week"
+      format="yyyy 第 WW 周"
+      placeholder="计划结束时间止"
+      size="mini"
+      style="width: 130px"
+    >
+    </el-date-picker>
+    <el-select
+      placeholder="流程状态"
+      v-model="state"
+      clearable="true"
+      size="mini"
+      class="select"
+      style="width: 128px"
+    >
+      <el-option
+        v-for="item in stateOptions"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      ></el-option>
+    </el-select>
+
+    <div class="labelStyle">
+      <div class="stateStyle">
+        待签发：
+        <el-tag class="tagStyle">1</el-tag>
+      </div>
+      <div class="stateStyle">
+        待许可：
+        <el-tag class="tagStyle">1</el-tag>
+      </div>
+      <div class="stateStyle">
+        执行中：
+        <el-tag class="tagStyle">1</el-tag>
+      </div>
+      <div class="stateStyle">
+        待终结：
+        <el-tag class="tagStyle">1</el-tag>
+      </div>
+      <div class="stateStyle">
+        已完成：
+        <el-tag class="tagStyle">1</el-tag>
+      </div>
+    </div>
+
     <div class="table-box">
       <el-table
-        height='500px'
+        height="500px"
         :data="tableData"
         style="width: 100%"
         border
-        :header-cell-style="{ color: '#333333', 'font-size': '12px' ,padding: '8px 0',  }"
-        :cell-style="{ 'font-size': '12px', padding: '8px 0', }"
+        :header-cell-style="{
+          color: '#333333',
+          'font-size': '12px',
+          padding: '8px 0',
+        }"
+        :cell-style="{ 'font-size': '12px', padding: '8px 0' }"
       >
         <el-table-column type="selection" width="55" align="center">
         </el-table-column>
@@ -79,7 +141,10 @@
         </el-table-column>
         <el-table-column label="流程状态" align="center">
           <template slot-scope="scope">
-              <div class="status-tag" :style="{background:statusList[scope.row.status].bgColor}">
+            <div
+              class="status-tag"
+              :style="{ background: statusList[scope.row.status].bgColor }"
+            >
               {{ statusList[scope.row.status].name }}
             </div>
           </template>
@@ -95,35 +160,37 @@ export default {
   name: "list",
   data() {
     return {
-      statusList:{
-        0:{
-          name:'待审核',
-          bgColor:'red'
+      statusList: {
+        0: {
+          name: "待审核",
+          bgColor: "red",
         },
-        1:{
-          name:'已审核',
-          bgColor:'green'
-        }
+        1: {
+          name: "已审核",
+          bgColor: "green",
+        },
       },
       tableData: [
         {
           data: "LALALA",
-          status:1
+          status: 1,
         },
         {
           data: "LALALA",
-          status:0
+          status: 0,
         },
         {
           data: "LALALA",
-          status:1
+          status: 1,
         },
       ],
-      input1: "",
-      input2: "",
-      value1: "",
-      value2: "",
-      options: [
+      ticketNum: "",
+      personCharge: "",
+      planStarton: "",
+      planStartoff: "",
+      planEndon: "",
+      planEndoff: "",
+      selectOptions: [
         {
           value: "选项1",
           label: "检修二班",
@@ -134,6 +201,65 @@ export default {
         },
       ],
       select: "",
+      state: "",
+      stateOptions: [
+        {
+          value: "选项1",
+          label: "草稿",
+        },
+        {
+          value: "选项2",
+          label: "审批中",
+        },
+        {
+          value: "选项3",
+          label: "待签发",
+        },
+        {
+          value: "选项4",
+          label: "待许可",
+        },
+        {
+          value: "选项5",
+          label: "待终结",
+        },
+        {
+          value: "选项6",
+          label: "执行中",
+        },
+        {
+          value: "选项7",
+          label: "已间断",
+        },
+        {
+          value: "选项8",
+          label: "已完成",
+        },
+        {
+          value: "选项9",
+          label: "延期中",
+        },
+        {
+          value: "选项10",
+          label: "负责人变更",
+        },
+        {
+          value: "选项11",
+          label: "已作废",
+        },
+        {
+          value: "选项12",
+          label: "已驳回",
+        },
+        {
+          value: "选项13",
+          label: "班组成员会签",
+        },
+        {
+          value: "选项14",
+          label: "值长审批",
+        },
+      ],
     };
   },
 };
@@ -145,7 +271,7 @@ export default {
   padding-top: 0;
 }
 
-.status-tag{
+.status-tag {
   display: inline-block;
   padding: 0 5px;
   font-size: 12px;
@@ -153,5 +279,29 @@ export default {
   font-weight: bold;
   border-radius: 2px;
 }
-
+.labelStyle {
+  display: flex;
+}
+.tagStyle {
+  color: #019ca9;
+  width: 35px;
+  height: 20px;
+  background: rgba(208, 234, 238, 0.5);
+  border-radius: 5px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stateStyle {
+  margin-top: 20px;
+  margin-bottom: 2px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>
