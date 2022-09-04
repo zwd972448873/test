@@ -30,7 +30,7 @@
         <div style="background-color: #dddddd">没有找到匹配的记录</div>
         <div style="background-color: white;width:800px;height:400px;"></div>
       </div>
-      <div style="background-color: white;margin-top: 15px;width:800px;height: 380px;"></div>
+      <!-- <div style="background-color: white;margin-top: 15px;width:800px;height: 380px;"></div> -->
     </div>
   </div>
 </template>

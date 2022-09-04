@@ -47,7 +47,7 @@
       >
         班组:
       </div>
-      <LineInput v-model="testInput" width="260px" />
+      <LineInput v-model="tempForm.run_workticket.duty_class" width="260px" />
       <el-button icon="el-icon-search" class="searchButton"></el-button>
       <div
         style="
@@ -99,7 +99,7 @@
     </div>
 
     <div style="margin-bottom: 20px">
-      <BigTable class="BigTablestyle" :tableInfo="tableInfo" />
+      <BigTable class="BigTablestyle" :tableInfo="run_workticket_measure_rxx_info" :tableData="tempForm.run_workticket_measure_rxx" />
     </div>
     <div
       @click="isShowOtherInfo = !isShowOtherInfo"
@@ -266,32 +266,53 @@
 <script>
 import lineInput from '../../components/line-input/index.vue'
 import bigTable from '../../components/big-table/index.vue'
-
+import {getDetail} from "../../api/all"
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'detial',
   components: { LineInput: lineInput, BigTable: bigTable },
+  props:{
+    ticketCode:{
+      type:String,
+      default:''
+    }
+  },
+  watch:{
+    ticketCode:{
+      handler(newValue){
+        this.getDetail(newValue)
+      }
+    }
+  },
   data () {
     return {
+      //tempForm.run_workticket.duty_class
+      tempForm:{
+        run_workticket:{
+          duty_class:''
+        },
+        //第三点里的表格
+        run_workticket_measure_rxx:[]
+      },
       testInput: '',
-      tableInfo: [
+      run_workticket_measure_rxx_info: [
         {
           title: '序号',
-          key: 'number',
+          key: 'sort_num',
           width: '80', // 宽度不能带px，直接传给eltable，自动宽度不用传值
           type: 'input' // input,checkBox
         },
         {
           title: '工作地点及设备双重名称',
-          key: 'switch',
+          key: 'description',
           width: '',
           type: 'input'
         },
         {
           title: '工作内容',
-          key: 'status',
-          width: '337',
-          type: 'checkBox'
+          key: 'exec_description',
+          width: '',
+          type: 'input'
         }
       ],
       tableInfo1: [
@@ -378,7 +399,15 @@ export default {
       isShowOtherInfo: false
     }
   },
-  mounted () {}
+  mounted () {},
+  methods:{
+    getDetail(ticketCode){
+      getDetail({code:ticketCode}).then(res=>{
+        console.log(res)
+        this.tempForm = res.data
+      })
+    }
+  }
 }
 </script>
 

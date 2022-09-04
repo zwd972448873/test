@@ -9,7 +9,7 @@
     <el-select
       placeholder="班组"
       v-model="select"
-      clearable="true"
+      :clearable="true"
       size="mini"
       class="select"
       style="width: 128px"
@@ -74,7 +74,7 @@
     <el-select
       placeholder="流程状态"
       v-model="state"
-      clearable="true"
+      :clearable="true"
       size="mini"
       class="select"
       style="width: 128px"
@@ -125,13 +125,16 @@
       >
         <el-table-column type="selection" width="55" align="center">
         </el-table-column>
-        <el-table-column prop="data" label="工作票编号" align="center">
+        <el-table-column prop="workticket_code" label="工作票编号" align="center">
+           <template v-slot="scope">
+            <div class="toDetail" @click="toDetail(scope.row)">{{scope.row.workticket_code}}</div>
+          </template>
         </el-table-column>
-        <el-table-column prop="data" label="工作内容" align="center">
+        <el-table-column prop="work_content" label="工作内容" width="350" align="center">
         </el-table-column>
-        <el-table-column prop="data" label="计划开始时间" align="center">
+        <el-table-column prop="plan_start_date" label="计划开始时间" align="center">
         </el-table-column>
-        <el-table-column prop="data" label="计划结束时间" align="center">
+        <el-table-column prop="plan_endt_date" label="计划结束时间" align="center">
         </el-table-column>
         <el-table-column prop="data" label="工作负责人" align="center">
         </el-table-column>
@@ -143,9 +146,9 @@
           <template v-slot="scope">
             <div
               class="status-tag"
-              :style="{ background: statusList[scope.row.status].bgColor }"
+              :style="{ background: statusList[scope.row.wfstatus].bgColor }"
             >
-              {{ statusList[scope.row.status].name }}
+              {{ statusList[scope.row.wfstatus].name }}
             </div>
           </template>
         </el-table-column>
@@ -160,29 +163,19 @@ export default {
   name: 'list',
   data () {
     return {
+      input3:'',
       statusList: {
-        0: {
-          name: '待审核',
-          bgColor: 'red'
-        },
-        1: {
-          name: '已审核',
+        'CLOSE': {
+          name: '已完成',
           bgColor: 'green'
+        },
+        'DQF': {
+          name: '待签发',
+          bgColor: 'blue'
         }
       },
       tableData: [
-        {
-          data: 'LALALA',
-          status: 1
-        },
-        {
-          data: 'LALALA',
-          status: 0
-        },
-        {
-          data: 'LALALA',
-          status: 1
-        }
+      
       ],
       ticketNum: '',
       personCharge: '',
@@ -265,8 +258,14 @@ export default {
   methods: {
     getTableData () {
       getList().then(res => {
-        console.log(res)
+        if(res.code==200){
+          this.tableData = res.data
+        }
       })
+    },
+    toDetail(row){
+      // console.log(row)
+      this.$emit('toDetail',row.workticket_code)
     }
   },
   mounted () {
@@ -313,5 +312,12 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.toDetail{
+  color: #23527C;
+}
+.toDetail:hover{
+  text-decoration: underline;
+  cursor: pointer;
 }
 </style>

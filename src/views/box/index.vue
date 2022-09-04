@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+    <el-tabs v-model="activeName" type="card">
       <el-tab-pane label="列表" name="list"> </el-tab-pane>
       <el-tab-pane label="明细" name="detial"></el-tab-pane>
       <el-tab-pane label="流程" name="process"></el-tab-pane>
@@ -12,8 +12,8 @@
       <div class="button">按钮1按钮1</div>
     </div>
     <el-scrollbar class="show-tab-box">
-      <List v-if="activeName === 'list'" />
-      <Detial v-if="activeName === 'detial'" />
+      <List @toDetail="toDetail" v-if="activeName === 'list'" />
+      <Detial :ticketCode="ticketCode" v-if="activeName === 'detial'" />
       <Process v-if="activeName === 'process'" />
     </el-scrollbar>
   </div>
@@ -33,7 +33,17 @@ export default {
   },
   data () {
     return {
-      activeName: 'list'
+      activeName: 'list',
+      ticketCode:''
+    }
+  },
+  methods:{
+    //接收工作票的code
+    toDetail(code){
+      this.activeName = 'detial';
+      this.$nextTick(()=>{
+        this.ticketCode = code
+      })
     }
   }
 }
@@ -57,6 +67,9 @@ export default {
     }
   }
 }
+.box{
+  position: relative;
+}
 .button-box {
   position: absolute;
   top: 5px;
@@ -77,6 +90,6 @@ export default {
   }
 }
 .show-tab-box {
-  height: calc(100vh - 45px - 50px);
+  height: calc(100vh - 45px - 43px);
 }
 </style>

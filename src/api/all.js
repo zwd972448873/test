@@ -6,3 +6,10 @@ export const getList = (data) =>
     method: 'get',
     params: data
   })
+
+  export const getDetail = (data) =>
+  request({
+    url: '/getDetail',
+    method: 'get',
+    params: data
+  })
