@@ -140,7 +140,7 @@
         <el-table-column prop="data" label="工作许可时间" align="center">
         </el-table-column>
         <el-table-column label="流程状态" align="center">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <div
               class="status-tag"
               :style="{ background: statusList[scope.row.status].bgColor }"
@@ -155,120 +155,130 @@
 </template>
 
 <script>
+import { getList } from '../../api/all'
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: "list",
-  data() {
+  name: 'list',
+  data () {
     return {
       statusList: {
         0: {
-          name: "待审核",
-          bgColor: "red",
+          name: '待审核',
+          bgColor: 'red'
         },
         1: {
-          name: "已审核",
-          bgColor: "green",
-        },
+          name: '已审核',
+          bgColor: 'green'
+        }
       },
       tableData: [
         {
-          data: "LALALA",
-          status: 1,
+          data: 'LALALA',
+          status: 1
         },
         {
-          data: "LALALA",
-          status: 0,
+          data: 'LALALA',
+          status: 0
         },
         {
-          data: "LALALA",
-          status: 1,
-        },
+          data: 'LALALA',
+          status: 1
+        }
       ],
-      ticketNum: "",
-      personCharge: "",
-      planStarton: "",
-      planStartoff: "",
-      planEndon: "",
-      planEndoff: "",
+      ticketNum: '',
+      personCharge: '',
+      planStarton: '',
+      planStartoff: '',
+      planEndon: '',
+      planEndoff: '',
       selectOptions: [
         {
-          value: "选项1",
-          label: "检修二班",
+          value: '选项1',
+          label: '检修二班'
         },
         {
-          value: "选项2",
-          label: "检修三班",
-        },
+          value: '选项2',
+          label: '检修三班'
+        }
       ],
-      select: "",
-      state: "",
+      select: '',
+      state: '',
       stateOptions: [
         {
-          value: "选项1",
-          label: "草稿",
+          value: '选项1',
+          label: '草稿'
         },
         {
-          value: "选项2",
-          label: "审批中",
+          value: '选项2',
+          label: '审批中'
         },
         {
-          value: "选项3",
-          label: "待签发",
+          value: '选项3',
+          label: '待签发'
         },
         {
-          value: "选项4",
-          label: "待许可",
+          value: '选项4',
+          label: '待许可'
         },
         {
-          value: "选项5",
-          label: "待终结",
+          value: '选项5',
+          label: '待终结'
         },
         {
-          value: "选项6",
-          label: "执行中",
+          value: '选项6',
+          label: '执行中'
         },
         {
-          value: "选项7",
-          label: "已间断",
+          value: '选项7',
+          label: '已间断'
         },
         {
-          value: "选项8",
-          label: "已完成",
+          value: '选项8',
+          label: '已完成'
         },
         {
-          value: "选项9",
-          label: "延期中",
+          value: '选项9',
+          label: '延期中'
         },
         {
-          value: "选项10",
-          label: "负责人变更",
+          value: '选项10',
+          label: '负责人变更'
         },
         {
-          value: "选项11",
-          label: "已作废",
+          value: '选项11',
+          label: '已作废'
         },
         {
-          value: "选项12",
-          label: "已驳回",
+          value: '选项12',
+          label: '已驳回'
         },
         {
-          value: "选项13",
-          label: "班组成员会签",
+          value: '选项13',
+          label: '班组成员会签'
         },
         {
-          value: "选项14",
-          label: "值长审批",
-        },
-      ],
-    };
+          value: '选项14',
+          label: '值长审批'
+        }
+      ]
+    }
   },
-};
+  methods: {
+    getTableData () {
+      getList().then(res => {
+        console.log(res)
+      })
+    }
+  },
+  mounted () {
+    this.getTableData()
+  }
+}
 </script>
 
 <style lang="scss" scoped>
 .list {
   padding: 10px;
-  padding-top: 0;
+  padding-top: 8px;
 }
 
 .status-tag {

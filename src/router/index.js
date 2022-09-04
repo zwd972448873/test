@@ -6,9 +6,9 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    redirect:'/box'
+    redirect: '/box'
   },
-  //壳子
+  // 壳子
   {
     path: '/box',
     name: 'box',

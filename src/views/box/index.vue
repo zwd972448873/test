@@ -20,28 +20,28 @@
 </template>
 
 <script>
-import list from "../list/index.vue";
-import detial from "../detial/index.vue";
-import process from "../process/index.vue";
+import list from '../list/index.vue'
+import detial from '../detial/index.vue'
+import process from '../process/index.vue'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
-  name: "box",
+  name: 'box',
   components: {
     List: list,
     Detial: detial,
-    Process: process,
+    Process: process
   },
-  data() {
+  data () {
     return {
-      activeName: "detial",
-    };
-  },
-};
+      activeName: 'list'
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
 .el-tabs {
-  height: 50px;
+  height: 43px;
   :deep(.el-tabs__nav-scroll) {
     background-color: #e5e5e5;
     padding-top: 2px;

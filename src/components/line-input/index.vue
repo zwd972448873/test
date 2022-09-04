@@ -1,7 +1,6 @@
 <template>
   <div class="line-input" :style="{ width: width }">
     <input class="input" v-model="inputValue" />
-    {{ value }}
   </div>
 </template>
 <script>
@@ -9,33 +8,33 @@ export default {
   props: {
     value: {
       type: [String, Number],
-      default: "",
+      default: ''
     },
     width: {
       type: String,
-      default: "200px",
-    },
+      default: '200px'
+    }
   },
   watch: {
     value: {
-      handler(newValue) {
-        this.inputValue = newValue;
+      handler (newValue) {
+        this.inputValue = newValue
       },
-      immediate: true,
+      immediate: true
     },
     inputValue: {
-      handler(newValue) {
-        this.$emit("input", newValue);
-      },
-    },
+      handler (newValue) {
+        this.$emit('input', newValue)
+      }
+    }
   },
-  data() {
+  data () {
     return {
-      inputValue: "",
-    };
+      inputValue: ''
+    }
   },
-  methods: {},
-};
+  methods: {}
+}
 </script>
 
 <style lang="scss" scoped>

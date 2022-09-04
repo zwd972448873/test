@@ -5,9 +5,9 @@
       <el-container>
         <el-aside>Aside</el-aside>
         <el-main>
-          <el-scrollbar class="show-box">
+          <!-- <el-scrollbar class="show-box"> -->
             <router-view></router-view>
-          </el-scrollbar>
+          <!-- </el-scrollbar> -->
         </el-main>
       </el-container>
     </el-container>
